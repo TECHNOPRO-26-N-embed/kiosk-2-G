@@ -17,19 +17,10 @@ void drinksPrice(Drink drinks[], int choice, int *money){
     j= *money  -   drinks[choice-1].price ;
             if(j>0){
             printf("お釣りは%d円です\n",j);
-<<<<<<< HEAD
-            *money = 0;
-            j=0;
-            }else{
-                printf("お釣りはありません\n");
-                *money = 0;
-            
-=======
             *money -= drinks[choice-1].price;
             }else{
                 printf("お釣りはありません\n");
                 printf("現在のお金 : %d\n",*money);
->>>>>>> 790c3afbea108da93d05681ee622a55aab27d152
             }
     return;
 }
@@ -104,6 +95,7 @@ int main() {
                 drinks[i].price, drinks[i].num, drinks[i].sold);
         }
 
+
         // 萩原の在庫切れ表示
         for(int j = 0; j < 5; j++){
             if(drinks[j].num == 0){
@@ -111,6 +103,7 @@ int main() {
             }
         }
 
+        printf("97. 売上\n");
         printf("98. 保存\n");
         printf("99. お金入力\n");
 
@@ -125,25 +118,22 @@ int main() {
             break;
         }else if(choice==99){
             InsertCoin(&money);
-<<<<<<< HEAD
-        }else if (choice == 98){
-              int k=0;
-              int l=0;
-              int o=0;
-            while (k <= 4){
-                
-                o=drinks[k].price*drinks[k].sold;
-                l=l+o;
-               
-                k++;
-                
-            }
-             printf("売上合計は%d円です\n",l);
-            
-=======
         }else if(choice ==98){
             FileCsv(drinks);
->>>>>>> 790c3afbea108da93d05681ee622a55aab27d152
+        }else if (choice == 97){//商品の売り上げの合計を出力
+            int k=0;
+            int l=0;
+            int o=0;
+                while (k <= 4){
+
+                    o=drinks[k].price*drinks[k].sold;
+                    l=l+o;
+
+                    k++;
+
+                }
+            printf("売上合計は%d円です\n",l);
+
         }else{
 
         }
