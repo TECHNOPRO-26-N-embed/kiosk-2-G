@@ -12,7 +12,16 @@ typedef struct {
 int sum;
 
 // 商品名(char name =30),単価(int price),数量(int num),合計金額(int sum),月(int month),気温(int tmp)
-
+void drinksPrice(Drink drinks[], int choice, int *money){
+    int j;
+    j= *money  -   drinks[choice-1].price ;
+            if(j>0){
+            printf("お釣りは%d円です\n",j);
+            }else{
+                printf("お釣りはありません\n");
+            }
+    return;
+}
 // コミョングン
 void InsertCoin(int *money){
     int insert =0;
@@ -27,7 +36,7 @@ void BuyDrink(Drink drinks[], int choice, int *money){
     if(drinks[choice+1].price>*money){
         InsertCoin(money);
     }
-    //drinksPrice(drinks, choice, money);
+    drinksPrice(drinks, choice, money);
 
 
     // money -= drinks[choice-1].price;
@@ -36,6 +45,20 @@ void BuyDrink(Drink drinks[], int choice, int *money){
     drinks[choice-1].num -= 1;
     
 
+    return;
+}
+
+void FileCsv(Drink drinks[]){
+    FILE *fp = fopen("DrinkSum.csv","w");
+// 商品名(char name =30),単価(int price),数量(int num),合計金額(int sum),月(int month),気温(int tmp)
+sum = 0;
+    fprintf(fp,"商品名, 単価, 数量, 月, 気温");
+    for(int i =0; i<5; i++){
+        fprintf(fp,"%s, %d, %d, %d, %d\n",drinks[i].name, drinks[i].price, drinks[i].num, drinks[i].month);
+        sum += drinks[i].price * drinks[i].sold;
+    }
+        fprintf(fp,"合計金額 : %d\n", sum);
+    fclose(fp);
     return;
 }
 //
@@ -64,8 +87,12 @@ int main() {
         printf("==================================\n");
         //printf("1. 商品を買う\n");
         for(int i = 0; i< 5; i++){
-            printf("%d. %s を購入, 在庫 : %d, sold : %d\n",i+1, drinks[i].name, drinks[i].num, drinks[i].sold);
+            printf("%d. %s を購入,　価格 : %d, 在庫 : %d, sold : %d\n",i+1, drinks[i].name,
+                drinks[i].price, drinks[i].num, drinks[i].sold);
         }
+        printf("98. 保存\n");
+        printf("99. お金入力\n");
+
         printf("0. 終了\n");
         scanf("%d", &choice);
 
@@ -77,6 +104,8 @@ int main() {
             break;
         }else if(choice==99){
             InsertCoin(&money);
+        }else if(choice ==98){
+            FileCsv(drinks);
         }else{
 
         }
