@@ -28,6 +28,7 @@ void InsertCoin(int *money){
     printf("お金入力 : ");
     scanf("%d", &insert);
     *money += insert;
+
     return;
 }
 
