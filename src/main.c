@@ -94,6 +94,7 @@ int main() {
             printf("%d. %s を購入,　価格 : %d, 在庫 : %d, sold : %d\n",i+1, drinks[i].name,
                 drinks[i].price, drinks[i].num, drinks[i].sold);
         }
+        printf("97. 売上\n");
         printf("98. 保存\n");
         printf("99. お金入力\n");
 
@@ -110,6 +111,20 @@ int main() {
             InsertCoin(&money);
         }else if(choice ==98){
             FileCsv(drinks);
+        }else if (choice == 97){//商品の売り上げの合計を出力
+            int k=0;
+            int l=0;
+            int o=0;
+                while (k <= 4){
+
+                    o=drinks[k].price*drinks[k].sold;
+                    l=l+o;
+
+                    k++;
+
+                }
+            printf("売上合計は%d円です\n",l);
+
         }else{
 
         }
@@ -117,3 +132,4 @@ int main() {
     return 0;
 
 }
+
