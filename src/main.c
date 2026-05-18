@@ -17,8 +17,12 @@ void drinksPrice(Drink drinks[], int choice, int *money){
     j= *money  -   drinks[choice-1].price ;
             if(j>0){
             printf("お釣りは%d円です\n",j);
+            *money = 0;
+            j=0;
             }else{
                 printf("お釣りはありません\n");
+                *money = 0;
+            
             }
     return;
 }
@@ -87,6 +91,20 @@ int main() {
             break;
         }else if(choice==99){
             InsertCoin(&money);
+        }else if (choice == 98){
+              int k=0;
+              int l=0;
+              int o=0;
+            while (k <= 4){
+                
+                o=drinks[k].price*drinks[k].sold;
+                l=l+o;
+               
+                k++;
+                
+            }
+             printf("売上合計は%d円です\n",l);
+            
         }else{
 
         }
