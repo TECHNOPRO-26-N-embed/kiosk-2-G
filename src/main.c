@@ -29,7 +29,7 @@ int main() {
         {"coke", 120, 5, 260518, 0, 0}
     };
 
-
+    int money = 0;
     int choice = 0;
     while(1){
         printf("\n==================================\n");
@@ -47,5 +47,7 @@ int main() {
         }else{
 
         }
+    }
     return 0;
+
 }
