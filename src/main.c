@@ -17,12 +17,19 @@ void drinksPrice(Drink drinks[], int choice, int *money){
     j= *money  -   drinks[choice-1].price ;
             if(j>0){
             printf("お釣りは%d円です\n",j);
+<<<<<<< HEAD
             *money = 0;
             j=0;
             }else{
                 printf("お釣りはありません\n");
                 *money = 0;
             
+=======
+            *money -= drinks[choice-1].price;
+            }else{
+                printf("お釣りはありません\n");
+                printf("現在のお金 : %d\n",*money);
+>>>>>>> 790c3afbea108da93d05681ee622a55aab27d152
             }
     return;
 }
@@ -39,6 +46,7 @@ void InsertCoin(int *money){
 void BuyDrink(Drink drinks[], int choice, int *money){
     printf("%d. %s商品を購入\n" , choice,drinks[choice-1].name);
     if(drinks[choice+1].price>*money){
+        printf("お金が足りないです、現在のお金 : %d\n",*money);
         InsertCoin(money);
     }
     drinksPrice(drinks, choice, money);
@@ -50,6 +58,20 @@ void BuyDrink(Drink drinks[], int choice, int *money){
     drinks[choice-1].num -= 1;
     
 
+    return;
+}
+
+void FileCsv(Drink drinks[]){
+    FILE *fp = fopen("DrinkSum.csv","w");
+// 商品名(char name =30),単価(int price),数量(int num),合計金額(int sum),月(int month),気温(int tmp)
+sum = 0;
+    fprintf(fp,"商品名, 単価, 数量, 月, 気温");
+    for(int i =0; i<5; i++){
+        fprintf(fp,"%s, %d, %d, %d, %d\n",drinks[i].name, drinks[i].price, drinks[i].num, drinks[i].month);
+        sum += drinks[i].price * drinks[i].sold;
+    }
+        fprintf(fp,"合計金額 : %d\n", sum);
+    fclose(fp);
     return;
 }
 //
@@ -78,8 +100,12 @@ int main() {
         printf("==================================\n");
         //printf("1. 商品を買う\n");
         for(int i = 0; i< 5; i++){
-            printf("%d. %s を購入, 在庫 : %d, sold : %d\n",i+1, drinks[i].name, drinks[i].num, drinks[i].sold);
+            printf("%d. %s を購入,　価格 : %d, 在庫 : %d, sold : %d\n",i+1, drinks[i].name,
+                drinks[i].price, drinks[i].num, drinks[i].sold);
         }
+        printf("98. 保存\n");
+        printf("99. お金入力\n");
+
         printf("0. 終了\n");
         scanf("%d", &choice);
 
@@ -91,6 +117,7 @@ int main() {
             break;
         }else if(choice==99){
             InsertCoin(&money);
+<<<<<<< HEAD
         }else if (choice == 98){
               int k=0;
               int l=0;
@@ -105,6 +132,10 @@ int main() {
             }
              printf("売上合計は%d円です\n",l);
             
+=======
+        }else if(choice ==98){
+            FileCsv(drinks);
+>>>>>>> 790c3afbea108da93d05681ee622a55aab27d152
         }else{
 
         }
