@@ -94,6 +94,14 @@ int main() {
             printf("%d. %s を購入,　価格 : %d, 在庫 : %d, sold : %d\n",i+1, drinks[i].name,
                 drinks[i].price, drinks[i].num, drinks[i].sold);
         }
+
+        // 萩原の在庫切れ表示
+        for(int j = 0; j < 5; j++){
+            if(drinks[j].num == 0){
+                printf("%d. %s は在庫切れです\n", j+1, drinks[j].name);
+            }
+        }
+
         printf("98. 保存\n");
         printf("99. お金入力\n");
 
