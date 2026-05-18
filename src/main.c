@@ -36,6 +36,10 @@ void InsertCoin(int *money){
 
 void BuyDrink(Drink drinks[], int choice, int *money){
     printf("%d. %s商品を購入\n" , choice,drinks[choice-1].name);
+    if(drinks[choice-1].num==0){
+        printf("在庫切れです");
+        return;
+    }
     if(drinks[choice+1].price>*money){
         printf("お金が足りないです、現在のお金 : %d\n",*money);
         InsertCoin(money);
