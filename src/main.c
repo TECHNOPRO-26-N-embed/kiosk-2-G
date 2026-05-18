@@ -12,13 +12,23 @@ typedef struct {
 int sum;
 
 // 商品名(char name =30),単価(int price),数量(int num),合計金額(int sum),月(int month),気温(int tmp)
-
+void drinksPrice(Drink drinks[], int choice, int *money){
+    int j;
+    j= *money  -   drinks[choice-1].price ;
+            if(j>0){
+            printf("お釣りは%d円です\n",j);
+            }else{
+                printf("お釣りはありません\n");
+            }
+    return;
+}
 // コミョングン
 void InsertCoin(int *money){
     int insert =0;
     printf("お金入力 : ");
     scanf("%d", &insert);
     *money += insert;
+
     return;
 }
 
@@ -27,7 +37,7 @@ void BuyDrink(Drink drinks[], int choice, int *money){
     if(drinks[choice+1].price>*money){
         InsertCoin(money);
     }
-    //drinksPrice(drinks, choice, money);
+    drinksPrice(drinks, choice, money);
 
 
     // money -= drinks[choice-1].price;
