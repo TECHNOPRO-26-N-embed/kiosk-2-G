@@ -20,7 +20,6 @@ void drinksPrice(Drink drinks[], int choice, int *money){
             *money -= drinks[choice-1].price;
             }else{
                 printf("お釣りはありません\n");
-                printf("現在のお金 : %d\n",*money);
             }
     return;
 }
@@ -36,9 +35,14 @@ void InsertCoin(int *money){
 
 void BuyDrink(Drink drinks[], int choice, int *money){
     printf("%d. %s商品を購入\n" , choice,drinks[choice-1].name);
-    if(drinks[choice+1].price>*money){
+    if(drinks[choice-1].num==0){
+        printf("在庫切れです");
+        return;
+    }
+    if(drinks[choice-1].price>*money){
         printf("お金が足りないです、現在のお金 : %d\n",*money);
         InsertCoin(money);
+        return;
     }
     drinksPrice(drinks, choice, money);
 
@@ -58,7 +62,7 @@ void FileCsv(Drink drinks[]){
 sum = 0;
     fprintf(fp,"商品名, 単価, 数量, 月, 気温");
     for(int i =0; i<5; i++){
-        fprintf(fp,"%s, %d, %d, %d, %d\n",drinks[i].name, drinks[i].price, drinks[i].num, drinks[i].month);
+        fprintf(fp,"%s, %d, %d, %d, %d\n",drinks[i].name, drinks[i].price, drinks[i].num, drinks[i].month, drinks[i].tmp);
         sum += drinks[i].price * drinks[i].sold;
     }
         fprintf(fp,"合計金額 : %d\n", sum);
@@ -95,18 +99,24 @@ int main() {
                 drinks[i].price, drinks[i].num, drinks[i].sold);
         }
 
+
         // 萩原の在庫切れ表示
         for(int j = 0; j < 5; j++){
             if(drinks[j].num == 0){
                 printf("%d. %s は在庫切れです\n", j+1, drinks[j].name);
             }
         }
-
+        printf("96. 返金\n");
+        printf("97. 売上\n");
         printf("98. 保存\n");
         printf("99. お金入力\n");
 
         printf("0. 終了\n");
-        scanf("%d", &choice);
+        if(scanf("%d", &choice) != 1){
+            printf("間違えた入力です\n");
+            return 1;
+        }
+        //scanf("%d", &choice);
 
         if(choice >= 1 && choice <=5){
             printf("購入\n");
@@ -118,8 +128,21 @@ int main() {
             InsertCoin(&money);
         }else if(choice ==98){
             FileCsv(drinks);
+        }else if (choice == 97){//商品の売り上げの合計を出力
+            int k=0;
+            int l=0;
+            int o=0;
+                while (k <= 4){
+                    o=drinks[k].price*drinks[k].sold;
+                    l=l+o;
+                    k++;
+                }
+            printf("売上合計は%d円です\n",l);
+        }else if(choice == 96){
+            printf("%d円返金しました\n", money);
+            money = 0;
         }else{
-
+            printf("間違えた番号です\n");
         }
     }
     return 0;
