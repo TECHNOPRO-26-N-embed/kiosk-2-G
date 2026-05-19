@@ -15,12 +15,11 @@ int sum;
 void drinksPrice(Drink drinks[], int choice, int *money){
     int j;
     j= *money  -   drinks[choice-1].price ;
-            if(j>0){
-            printf("お釣りは%d円です\n",j);
+            if(j>=0){
+            printf("残金は%d円です\n",j);
             *money -= drinks[choice-1].price;
             }else{
                 printf("お釣りはありません\n");
-                printf("現在のお金 : %d\n",*money);
             }
     return;
 }
