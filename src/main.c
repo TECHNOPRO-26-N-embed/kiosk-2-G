@@ -136,10 +136,13 @@ int main() {
 
                 }
             printf("売上合計は%d円です\n",l);
-            }else if(choice == 96){
+        }else if(choice == 96){
+            int button;
+            scanf("%d", &button);
+            if(button == 1){
                 printf("%d円返金しました\n", money);
                 money = 0;
-            
+            }
         }else{
 
         }
