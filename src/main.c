@@ -106,7 +106,7 @@ int main() {
                 printf("%d. %s は在庫切れです\n", j+1, drinks[j].name);
             }
         }
-
+        printf("96. 返金\n");
         printf("97. 売上\n");
         printf("98. 保存\n");
         printf("99. お金入力\n");
@@ -137,7 +137,10 @@ int main() {
 
                 }
             printf("売上合計は%d円です\n",l);
-
+            }else if(choice == 96){
+                printf("%d円返金しました\n", money);
+                money = 0;
+            
         }else{
 
         }
