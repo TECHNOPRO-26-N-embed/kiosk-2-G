@@ -91,7 +91,7 @@ int main() {
         printf("==================================\n");
         //printf("1. 商品を買う\n");
         for(int i = 0; i< 5; i++){
-            printf("%d. %s を購入,　価格 : %d, 在庫 : %d, sold : %d\n",i+1, drinks[i].name,
+            printf("%d. %s を購入, 価格 : %d, 在庫 : %d, sold : %d\n",i+1, drinks[i].name,
                 drinks[i].price, drinks[i].num, drinks[i].sold);
         }
 

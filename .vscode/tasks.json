@@ -5,10 +5,42 @@
             "label": "Build C",
             "type": "shell",
             "command": "gcc",
-            "args": ["-finput-charset=utf-8", "-fexec-charset=cp932", "src/main.c", "-o", "app.exe"],
-            "group": {"kind": "build", "isDefault": true},
+            "args": [
+                "-finput-charset=utf-8",
+                "-fexec-charset=cp932",
+                "src/main.c",
+                "-o",
+                "app.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
             "problemMatcher": [],
             "detail": "gcc で src/main.c をコンパイル"
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: gcc.exe アクティブなファイルのビルド",
+            "command": "C:\\mingw64\\bin\\gcc.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "デバッガーによって生成されたタスク。"
         }
     ]
 }
