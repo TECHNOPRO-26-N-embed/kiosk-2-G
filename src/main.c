@@ -42,6 +42,7 @@ void BuyDrink(Drink drinks[], int choice, int *money){
     if(drinks[choice-1].price>*money){
         printf("お金が足りないです、現在のお金 : %d\n",*money);
         InsertCoin(money);
+        return;
     }
     drinksPrice(drinks, choice, money);
 
@@ -111,7 +112,11 @@ int main() {
         printf("99. お金入力\n");
 
         printf("0. 終了\n");
-        scanf("%d", &choice);
+        if(scanf("%d", &choice) != 1){
+            printf("間違えた入力です\n");
+            return 1;
+        }
+        //scanf("%d", &choice);
 
         if(choice >= 1 && choice <=5){
             printf("購入\n");
