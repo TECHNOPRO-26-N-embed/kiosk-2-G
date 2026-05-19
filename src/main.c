@@ -39,7 +39,7 @@ void BuyDrink(Drink drinks[], int choice, int *money){
         printf("在庫切れです");
         return;
     }
-    if(drinks[choice+1].price>*money){
+    if(drinks[choice-1].price>*money){
         printf("お金が足りないです、現在のお金 : %d\n",*money);
         InsertCoin(money);
     }
@@ -128,23 +128,16 @@ int main() {
             int l=0;
             int o=0;
                 while (k <= 4){
-
                     o=drinks[k].price*drinks[k].sold;
                     l=l+o;
-
                     k++;
-
                 }
             printf("売上合計は%d円です\n",l);
         }else if(choice == 96){
-            int button;
-            scanf("%d", &button);
-            if(button == 1){
-                printf("%d円返金しました\n", money);
-                money = 0;
-            }
+            printf("%d円返金しました\n", money);
+            money = 0;
         }else{
-
+            printf("間違えた番号です\n");
         }
     }
     return 0;
