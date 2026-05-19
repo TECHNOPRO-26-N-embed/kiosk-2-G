@@ -61,7 +61,7 @@ void FileCsv(Drink drinks[]){
 sum = 0;
     fprintf(fp,"商品名, 単価, 数量, 月, 気温");
     for(int i =0; i<5; i++){
-        fprintf(fp,"%s, %d, %d, %d, %d\n",drinks[i].name, drinks[i].price, drinks[i].num, drinks[i].month);
+        fprintf(fp,"%s, %d, %d, %d, %d\n",drinks[i].name, drinks[i].price, drinks[i].num, drinks[i].month, drinks[i].tmp);
         sum += drinks[i].price * drinks[i].sold;
     }
         fprintf(fp,"合計金額 : %d\n", sum);
@@ -94,7 +94,7 @@ int main() {
         printf("==================================\n");
         //printf("1. 商品を買う\n");
         for(int i = 0; i< 5; i++){
-            printf("%d. %s を購入,　価格 : %d, 在庫 : %d, sold : %d\n",i+1, drinks[i].name,
+            printf("%d. %s を購入, 価格 : %d, 在庫 : %d, sold : %d\n",i+1, drinks[i].name,
                 drinks[i].price, drinks[i].num, drinks[i].sold);
         }
 
