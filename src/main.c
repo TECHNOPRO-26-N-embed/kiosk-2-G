@@ -86,6 +86,7 @@ void buyProduct() {
     p->stock--;
 
     printf("%s の購入が完了しました。\n", p->name);
+    printf("残りの残高: %d円\n", insertedMoney);
 
     saveSalesData(p->id, p->name, p->price);
 }
@@ -94,7 +95,7 @@ void buyProduct() {
 void returnChange() {
     printf("返却金額: %d円\n", insertedMoney);
     insertedMoney = 0;
-    selectedIndex = -1;
+   
 }
 
 /* F05 売上データ保存 */
