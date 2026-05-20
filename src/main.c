@@ -16,7 +16,7 @@ int selectProduct();
 void insertMoney();
 void buyProduct();
 void returnChange();
-void saveSalesData(int id, char name[], int price);
+void saveSalesData(int id, char name[], int price, int stock);
 void manageStock();
 
 /* 商品データ */
@@ -89,7 +89,7 @@ void buyProduct() {
     printf("%s の購入が完了しました。\n", p->name);
     printf("残りの残高: %d円\n", insertedMoney);
 
-    saveSalesData(p->id, p->name, p->price);
+    saveSalesData(p->id, p->name, p->price, p->stock);
 }
 
 /* F04 お釣り計算・返却 */
@@ -100,7 +100,7 @@ void returnChange() {
 }
 
 /* F05 売上データ保存 */
-void saveSalesData(int id, char name[], int price) {
+void saveSalesData(int id, char name[], int price, int stock) {
     FILE *fp = fopen("sales.csv", "a");
 
     if (fp == NULL) {
@@ -108,7 +108,7 @@ void saveSalesData(int id, char name[], int price) {
         return;
     }
 
-    fprintf(fp, "%d,%s,%d\n", id, name, price);
+    fprintf(fp, "%d,%s,%d,%d\n", id, name, price, stock);
     fclose(fp);
 
     printf("売上データを保存しました。\n");
