@@ -21,9 +21,9 @@ void manageStock();
 
 /* 商品データ */
 Product products[PRODUCT_COUNT] = {
-    {1, "コーラ", 1200, 5},
-    {2, "水", 800, 10},
-    {3, "コーヒー", 1500, 3}
+    {1, "コーラ", 120, 5},
+    {2, "水", 80, 10},
+    {3, "コーヒー", 150, 3}
 };
 
 int selectedIndex = -1;
@@ -31,6 +31,7 @@ int insertedMoney = 0;
 
 /* F01 商品選択 */
 int selectProduct() {
+    showProducts();
     int id;
 
     printf("\n商品番号を入力してください: ");
