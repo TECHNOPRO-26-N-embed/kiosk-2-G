@@ -1,4 +1,3 @@
-
 # 自動販売機システム 詳細設計書（関数仕様・処理フロー）
 
 ## 0. 前提
@@ -201,6 +200,7 @@ int record_sales_data(const Product* product, int quantity,
                       const OperationContext* ctx);
 ```
 - 入力
+  - `id`: 商品ID
   - `product`: 購入商品
   - `quantity`: 購入数（通常1）
   - `inserted_money`, `change`
@@ -466,3 +466,4 @@ int save_product_data(const char* file_path,
 - CSV入出力はカンマ・改行混入対策を行う。
 - 価格・在庫の整数範囲チェックを徹底する。
 - 購入処理は「在庫更新」と「売上記録」の整合性を重視し、障害時はログとバックアップで追跡可能にする。
+

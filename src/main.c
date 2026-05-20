@@ -16,14 +16,14 @@ int selectProduct();
 void insertMoney();
 void buyProduct();
 void returnChange();
-void saveSalesData(int id, char name[], int price);
+void saveSalesData(int id, char name[], int price, int stock);
 void manageStock();
 
 /* 商品データ */
 Product products[PRODUCT_COUNT] = {
-    {1, "コーラ", 1200, 5},
-    {2, "水", 800, 10},
-    {3, "コーヒー", 1500, 3}
+    {1, "コーラ", 120, 5},
+    {2, "水", 80, 10},
+    {3, "コーヒー", 150, 3}
 };
 
 int selectedIndex = -1;
@@ -31,6 +31,7 @@ int insertedMoney = 0;
 
 /* F01 商品選択 */
 int selectProduct() {
+    showProducts();
     int id;
 
     printf("\n商品番号を入力してください: ");
@@ -55,11 +56,11 @@ void insertMoney() {
     printf("\n投入金額を入力してください: ");
     scanf("%d", &money);
 
-    if (money > 0) {
+    if (money > 0 && money <= 10000) {  // 上限を設定
         insertedMoney += money;
         printf("現在の投入金額: %d円\n", insertedMoney);
     } else {
-        printf("正しい金額を入力してください。\n");
+        printf("正しい金額を入力してください。上限は10000円です。\n");
     }
 }
 
@@ -86,19 +87,20 @@ void buyProduct() {
     p->stock--;
 
     printf("%s の購入が完了しました。\n", p->name);
+    printf("残りの残高: %d円\n", insertedMoney);
 
-    saveSalesData(p->id, p->name, p->price);
+    saveSalesData(p->id, p->name, p->price, p->stock);
 }
 
 /* F04 お釣り計算・返却 */
 void returnChange() {
     printf("返却金額: %d円\n", insertedMoney);
     insertedMoney = 0;
-    selectedIndex = -1;
+   
 }
 
 /* F05 売上データ保存 */
-void saveSalesData(int id, char name[], int price) {
+void saveSalesData(int id, char name[], int price, int stock) {
     FILE *fp = fopen("sales.csv", "a");
 
     if (fp == NULL) {
@@ -106,7 +108,7 @@ void saveSalesData(int id, char name[], int price) {
         return;
     }
 
-    fprintf(fp, "%d,%s,%d\n", id, name, price);
+    fprintf(fp, "%d,%s,%d,%d\n", id, name, price, stock);
     fclose(fp);
 
     printf("売上データを保存しました。\n");
@@ -167,7 +169,12 @@ int main() {
         printf("0. 終了する\n");
         printf("メニューを選択してください: ");
 
-        scanf("%d", &menu);
+        if (scanf("%d", &menu) != 1) {
+            printf("入力エラーが発生しました。正しい数字を入力してください。\n");
+            // 入力バッファをクリア
+            while (getchar() != '\n');
+            continue;
+        }
 
         if (menu == 1) {
             showProducts();
