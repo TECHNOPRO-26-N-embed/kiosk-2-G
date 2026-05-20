@@ -56,11 +56,11 @@ void insertMoney() {
     printf("\n投入金額を入力してください: ");
     scanf("%d", &money);
 
-    if (money > 0) {
+    if (money > 0 && money <= 10000) {  // 上限を設定
         insertedMoney += money;
         printf("現在の投入金額: %d円\n", insertedMoney);
     } else {
-        printf("正しい金額を入力してください。\n");
+        printf("正しい金額を入力してください。上限は10000円です。\n");
     }
 }
 
