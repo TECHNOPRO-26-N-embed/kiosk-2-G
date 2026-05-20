@@ -125,6 +125,11 @@ void manageStock() {
     for (int i = 0; i < PRODUCT_COUNT; i++) {
         if (products[i].id == id) {
             products[i].stock += amount;
+            if (products[i].stock < 0) {
+                products[i].stock = 0; // 在庫は0未満にならないようにする
+            }else if(products[i].stock > 10){
+                products[i].stock = 10; // 在庫は10を超えないようにする
+            }
             printf("%s の在庫は %d 個になりました。\n",
                    products[i].name, products[i].stock);
             return;
