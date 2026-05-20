@@ -204,8 +204,8 @@ int record_sales_data(const Product* product, int quantity,
   - `id`: 商品ID
   - `product`: 購入商品
   - `quantity`: 購入数（通常1）
-  - `inserted_money`, `change`
-  - `ctx->timestamp`
+  - `stock`: 在庫
+  - 
 - 出力
   - `data/sales.csv` に1行追記
 - 戻り値
