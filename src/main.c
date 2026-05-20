@@ -1,204 +1,187 @@
 #include <stdio.h>
+#include <string.h>
 
-#define ITEM_COUNT 5
+#define PRODUCT_COUNT 3
 
 typedef struct {
+    int id;
     char name[30];
     int price;
     int stock;
-    int sold;
-} Drink;
+} Product;
 
+/* 関数宣言 */
+void showProducts();
+int selectProduct();
+void insertMoney();
+void buyProduct();
+void returnChange();
+void saveSalesData(int id, char name[], int price);
+void manageStock();
 
-/* 入力バッファ削除 */
-void clearBuffer(){
-    while(getchar() != '\n');
-}
+/* 商品データ */
+Product products[PRODUCT_COUNT] = {
+    {1, "コーラ", 1200, 5},
+    {2, "水", 800, 10},
+    {3, "コーヒー", 1500, 3}
+};
 
+int selectedIndex = -1;
+int insertedMoney = 0;
 
-/* お金投入 */
-void insertMoney(int *money){
+/* F01 商品選択 */
+int selectProduct() {
+    int id;
 
-    int insert;
+    printf("\n商品番号を入力してください: ");
+    scanf("%d", &id);
 
-    printf("投入金額 : ");
-
-    if(scanf("%d", &insert) != 1){
-        printf("入力エラー\n");
-        clearBuffer();
-        return;
-    }
-
-    if(insert <= 0){
-        printf("正しい金額を入力してください\n");
-        return;
-    }
-
-    *money += insert;
-
-    printf("現在金額 : %d円\n", *money);
-}
-
-
-/* メニュー表示 */
-void showMenu(Drink drinks[], int money){
-
-    printf("\n========================\n");
-    printf("      自動販売機\n");
-    printf("========================\n");
-
-    printf("現在金額 : %d円\n\n", money);
-
-    for(int i = 0; i < ITEM_COUNT; i++){
-
-        printf("%d. %-15s %3d円 在庫:%d",
-               i + 1,
-               drinks[i].name,
-               drinks[i].price,
-               drinks[i].stock);
-
-        if(drinks[i].stock == 0){
-            printf(" [売切]");
+    for (int i = 0; i < PRODUCT_COUNT; i++) {
+        if (products[i].id == id) {
+            selectedIndex = i;
+            printf("%s が選択されました。\n", products[i].name);
+            return 1;
         }
-
-        printf("\n");
     }
 
-    printf("\n96. 返金\n");
-    printf("97. 売上確認\n");
-    printf("98. CSV保存\n");
-    printf("99. お金投入\n");
-    printf("0. 終了\n");
-
-    printf("\n番号入力 : ");
+    printf("存在しない商品です。\n");
+    return 0;
 }
 
+/* F02 金額投入 */
+void insertMoney() {
+    int money;
 
-/* 商品購入 */
-void buyDrink(Drink drinks[], int choice, int *money){
+    printf("\n投入金額を入力してください: ");
+    scanf("%d", &money);
 
-    Drink *d = &drinks[choice - 1];
+    if (money > 0) {
+        insertedMoney += money;
+        printf("現在の投入金額: %d円\n", insertedMoney);
+    } else {
+        printf("正しい金額を入力してください。\n");
+    }
+}
 
-    if(d->stock == 0){
-        printf("%s は売り切れです\n", d->name);
+/* F03 商品購入 */
+void buyProduct() {
+    if (selectedIndex == -1) {
+        printf("先に商品を選択してください。\n");
         return;
     }
 
-    if(*money < d->price){
-        printf("お金が足りません\n");
+    Product *p = &products[selectedIndex];
+
+    if (p->stock <= 0) {
+        printf("在庫がありません。\n");
         return;
     }
 
-    *money -= d->price;
-
-    d->stock--;
-    d->sold++;
-
-    printf("%s を購入しました\n", d->name);
-    printf("残金 : %d円\n", *money);
-}
-
-
-/* 売上計算 */
-int calcSales(Drink drinks[]){
-
-    int total = 0;
-
-    for(int i = 0; i < ITEM_COUNT; i++){
-        total += drinks[i].price * drinks[i].sold;
-    }
-
-    return total;
-}
-
-
-/* CSV保存 */
-void saveCSV(Drink drinks[]){
-
-    FILE *fp = fopen("DrinkSum.csv", "w");
-
-    if(fp == NULL){
-        printf("保存失敗\n");
+    if (insertedMoney < p->price) {
+        printf("金額が不足しています。不足金額: %d円\n", p->price - insertedMoney);
         return;
     }
 
-    fprintf(fp, "商品名,価格,在庫,販売数\n");
+    insertedMoney -= p->price;
+    p->stock--;
 
-    for(int i = 0; i < ITEM_COUNT; i++){
+    printf("%s の購入が完了しました。\n", p->name);
 
-        fprintf(fp,
-                "%s,%d,%d,%d\n",
-                drinks[i].name,
-                drinks[i].price,
-                drinks[i].stock,
-                drinks[i].sold);
+    saveSalesData(p->id, p->name, p->price);
+}
+
+/* F04 お釣り計算・返却 */
+void returnChange() {
+    printf("返却金額: %d円\n", insertedMoney);
+    insertedMoney = 0;
+    selectedIndex = -1;
+}
+
+/* F05 売上データ保存 */
+void saveSalesData(int id, char name[], int price) {
+    FILE *fp = fopen("sales.csv", "a");
+
+    if (fp == NULL) {
+        printf("売上ファイルの保存に失敗しました。\n");
+        return;
     }
 
-    fprintf(fp, "売上,%d\n", calcSales(drinks));
-
+    fprintf(fp, "%d,%s,%d\n", id, name, price);
     fclose(fp);
 
-    printf("CSV保存完了\n");
+    printf("売上データを保存しました。\n");
 }
 
+/* F06 在庫管理 */
+void manageStock() {
+    int id, amount;
 
-/* メイン */
-int main(){
+    printf("\n在庫を追加する商品番号を入力してください: ");
+    scanf("%d", &id);
 
-    Drink drinks[ITEM_COUNT] = {
-        {"コーラ",120,5,0},
-        {"水",100,5,0},
-        {"お茶",110,5,0},
-        {"コーヒー",140,5,0},
-        {"メロンソーダ",150,5,0}
-    };
+    printf("追加する数量を入力してください: ");
+    scanf("%d", &amount);
 
-    int money = 0;
-    int choice;
-
-    while(1){
-
-        showMenu(drinks, money);
-
-        if(scanf("%d", &choice) != 1){
-            printf("数字を入力してください\n");
-            clearBuffer();
-            continue;
+    for (int i = 0; i < PRODUCT_COUNT; i++) {
+        if (products[i].id == id) {
+            products[i].stock += amount;
+            printf("%s の在庫は %d 個になりました。\n",
+                   products[i].name, products[i].stock);
+            return;
         }
+    }
 
-        if(choice >= 1 && choice <= ITEM_COUNT){
+    printf("存在しない商品です。\n");
+}
 
-            buyDrink(drinks, choice, &money);
+/* 商品一覧表示 */
+void showProducts() {
+    printf("\n===== 商品一覧 =====\n");
 
-        }else if(choice == 99){
+    for (int i = 0; i < PRODUCT_COUNT; i++) {
+        printf("%d. %s / %d円 / 在庫 %d個\n",
+               products[i].id,
+               products[i].name,
+               products[i].price,
+               products[i].stock);
+    }
+}
 
-            insertMoney(&money);
+/* 基本ループ */
+int main() {
+    int menu;
 
-        }else if(choice == 98){
+    while (1) {
+        printf("\n===== 自動販売機メニュー =====\n");
+        printf("1. 商品一覧を見る\n");
+        printf("2. 商品を選択する\n");
+        printf("3. 金額を投入する\n");
+        printf("4. 商品を購入する\n");
+        printf("5. お金を返却する / キャンセル\n");
+        printf("6. 在庫を管理する\n");
+        printf("0. 終了する\n");
+        printf("メニューを選択してください: ");
 
-            saveCSV(drinks);
+        scanf("%d", &menu);
 
-        }else if(choice == 97){
-
-            printf("現在売上 : %d円\n", calcSales(drinks));
-
-        }else if(choice == 96){
-
-            if(money == 0){
-                printf("返金するお金がありません\n");
-            }else{
-                printf("%d円返金しました\n", money);
-                money = 0;
-            }
-
-        }else if(choice == 0){
-
-            printf("終了します\n");
+        if (menu == 1) {
+            showProducts();
+        } else if (menu == 2) {
+            selectProduct();
+        } else if (menu == 3) {
+            insertMoney();
+        } else if (menu == 4) {
+            buyProduct();
+        } else if (menu == 5) {
+            returnChange();
+        } else if (menu == 6) {
+            manageStock();
+        } else if (menu == 0) {
+            returnChange();
+            printf("プログラムを終了します。\n");
             break;
-
-        }else{
-
-            printf("無効な番号です\n");
+        } else {
+            printf("正しいメニュー番号を入力してください。\n");
         }
     }
 
