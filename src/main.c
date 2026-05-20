@@ -162,7 +162,12 @@ int main() {
         printf("0. 終了する\n");
         printf("メニューを選択してください: ");
 
-        scanf("%d", &menu);
+        if (scanf("%d", &menu) != 1) {
+            printf("入力エラーが発生しました。正しい数字を入力してください。\n");
+            // 入力バッファをクリア
+            while (getchar() != '\n');
+            continue;
+        }
 
         if (menu == 1) {
             showProducts();
