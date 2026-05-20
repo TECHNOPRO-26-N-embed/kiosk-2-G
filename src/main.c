@@ -30,61 +30,89 @@ typedef struct {
 
 /* 商品選択・購入関連 */
 int select_product(const Product products[], int product_count,
-                   int input_id, int* selected_product_id);
+                   int input_id, int* selected_product_id){
+                    return 0;
+                   }
 
 int purchase_product(Product products[], int product_count,
                      RuntimeState* state, int selected_product_id,
-                     int* change, const OperationContext* ctx);
+                     int* change, const OperationContext* ctx){
+                    return 0;
+                   }
 
 /* 金額管理・計算 */
 int insert_money(RuntimeState* state, int money,
-                 const OperationContext* ctx);
+                 const OperationContext* ctx){
+                    return 0;
+                   }
 
 int calculate_change(int inserted_money, int price,
-                     int* change);
+                     int* change){
+                    return 0;
+                   };
 
 int return_money(RuntimeState* state, int amount_to_return,
-                 const OperationContext* ctx);
+                 const OperationContext* ctx){
+                    return 0;
+                   }
 
 /* データ記録・ログ */
 int record_sales_data(const Product* product,
                       int inserted_money,
                       int change,
-                      const OperationContext* ctx);
+                      const OperationContext* ctx){
+                    return 0;
+                   }
 
 int log_operation(const char* message,
-                  const OperationContext* ctx);
+                  const OperationContext* ctx){
+                    return 0;
+                   }
 
 /* 在庫管理 */
 int check_stock(const Product products[], int product_count,
-                int product_id);
+                int product_id){
+                    return 0;
+                   }
 
 int update_stock(Product products[], int product_count,
-                 int product_id, int stock_delta);
+                 int product_id, int stock_delta){
+                    return 0;
+                   }
 
 int replace_product(Product products[], int product_count,
                     int product_id,
                     const char* new_name,
                     int new_price,
                     int new_stock,
-                    int new_max_stock);
+                    int new_max_stock){
+                        return 0;
+                    }
 
 /* セキュリティ・保守 */
 int validate_operation(const RuntimeState* state,
-                       const OperationContext* ctx);
+                       const OperationContext* ctx){
+                        return 0;
+                    }
 
 int backup_data(const char* source_file,
-                const char* backup_file);
+                const char* backup_file){
+                        return 0;
+                    }
 
 /* その他 */
 int load_product_data(Product products[],
                       int max_products,
                       int* product_count,
-                      const char* filename);
+                      const char* filename){
+                        return 0;
+                    }
 
 int save_product_data(const Product products[],
                       int product_count,
-                      const char* filename);
+                      const char* filename){
+                        return 0;
+                    }
 
 /* 画面表示 */
 void print_products(const Product products[], int product_count) {
