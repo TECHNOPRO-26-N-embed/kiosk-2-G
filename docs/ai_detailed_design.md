@@ -201,6 +201,7 @@ int record_sales_data(const Product* product, int quantity,
                       const OperationContext* ctx);
 ```
 - 入力
+  - `id`: 商品ID
   - `product`: 購入商品
   - `quantity`: 購入数（通常1）
   - `inserted_money`, `change`
